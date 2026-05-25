@@ -13,7 +13,7 @@ load_dotenv()
 
 SPOTIFY_CLIENT_ID = os.getenv("SPOTIFY_CLIENT_ID")
 SPOTIFY_CLIENT_SECRET = os.getenv("SPOTIFY_CLIENT_SECRET")
-SPOTIFY_REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI", "http://localhost:8000/callback")
+SPOTIFY_REDIRECT_URI = os.getenv("SPOTIFY_REDIRECT_URI", "https://backend-production-49f37.up.railway.app/callback")
 
 # ─────────────────────────────────────────────────────────────────────────────
 # Genre → Spotify seed genres mapping
@@ -138,20 +138,19 @@ def get_recommendations(mood_profile: dict, limit: int = 20) -> List[dict]:
         else:
             query_parts.append("genre:pop")
             
-        # Add a mood keyword to the search to align with the vibe
-        mood = mood_profile.get("primary_mood", "")
-        if mood:
-            query_parts.append(mood)
+        # We rely primarily on genre to ensure reliable search results
+        # as appending free text moods often breaks the Spotify search API
+
             
         query = " ".join(query_parts)
         
-        results = sp.search(q=query, type="track", limit=50)
+        results = sp.search(q=query, type="track", limit=10)
         items = results.get("tracks", {}).get("items", [])
         
         # If the specific mood + genre query returns nothing, fallback to just genre
         if not items and seed_genres:
             query = f"genre:{seed_genres[0]}"
-            results = sp.search(q=query, type="track", limit=50)
+            results = sp.search(q=query, type="track", limit=10)
             items = results.get("tracks", {}).get("items", [])
             
         # Shuffle to get variety
