@@ -21,6 +21,7 @@ mood_profile = {
   "preferred_tempo": "slow",
   "recommended_vibe": "gentle focus",
   "emotional_state_summary": "You are in a balanced and focused state, looking for soft instrumental music to enhance concentration.",
+  "search_keywords": "Hans Zimmer Interstellar",
   "confidence_score": 0.92
 }
 
