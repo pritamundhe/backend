@@ -46,7 +46,7 @@ app.add_middleware(
 
 # ─── Routes ───────────────────────────────────────────────────────────────────
 
-@app.get("/health")
+@app.get("/")
 async def health():
     return {"status": "ok", "service": "Moodify AI"}
 
